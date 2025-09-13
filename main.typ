@@ -50,6 +50,7 @@ $
 $
 
 = Dot Product
+We need the dot product to determine how much two vectors align.
 #definition(title: "Dot Product")[
   The dot product between to vector $bold(u)$ and $bold(v)$, denoted by $bold(u) dot bold(v)$ and is defined as a scalar value
 
@@ -164,7 +165,7 @@ For example, $bold(w) = w_x bold(e)_1 + w_y bold(e)_2 + w_z bold(e)_3$, that is,
     k_1 bold(v)_1 + k_2 bold(v)_2 + dots.h + k_n bold(v)_n = bold(u)
   $
   has at least one solution, for every vector $bold(u)$.
-]<span-def>
+]<def-span>
 
 = The Matrix
 #definition(title: "Matrix transpose")[
@@ -286,7 +287,7 @@ Basically matrix operations include associativity, distributivity, commutativity
 ]
 
 #proof()[
-  According to @span-def, the column vectors $bold(a)_1, bold(a)_2, dots.h, bold(a)_q$ span $RR^p$ $i.i.f$ $sum_(i = 1)^q x_i bold(a)_i = bold(y)$ has a solution for every $bold(y)$. If $bold(A)$ is a $p times q$ matrix with $bold(a)_1, bold(a)_2, dots.h, bold(a)_q$ as columns, then $bold(A) bold(x) = bold(y) arrow.l.r.double.long sum_(i = 1)^q x_i bold(a)_i = bold(y)$.
+  According to @def-span, the column vectors $bold(a)_1, bold(a)_2, dots.h, bold(a)_q$ span $RR^p$ $i.i.f$ $sum_(i = 1)^q x_i bold(a)_i = bold(y)$ has a solution for every $bold(y)$. If $bold(A)$ is a $p times q$ matrix with $bold(a)_1, bold(a)_2, dots.h, bold(a)_q$ as columns, then $bold(A) bold(x) = bold(y) arrow.l.r.double.long sum_(i = 1)^q x_i bold(a)_i = bold(y)$.
 ]
 
 == Change of Base
@@ -338,7 +339,7 @@ Normally, we use vector $bold(e)_1 = vec(1, 0)$ and $bold(e)_2 = vec(0, 1)$ as o
   1. $det(I) = 1$
   2. $bar dots.h lambda_1 bold(a)_1 + lambda_2 bold(a)_2 + dots.h bar = lambda_1 bar dots.h #h(4pt) bold(a)_1 #h(4pt) dots.h bar + lambda_2 bar dots.h #h(4pt) bold(a)_2 #h(4pt) dots.h bar$
   3. $bar dots.h #h(4pt) bold(a)_i #h(4pt) dots.h #h(4pt) bold(a)_i #h(4pt) dots.h bar = 0$
-]<determinant-def>
+]<def-determinant>
 
 #theorem(title: "Properties of the determinant")[
   4. $bar dots.h #h(4pt) bold(0) #h(4pt) dots.h bar = 0$
@@ -392,6 +393,92 @@ Cramer's Rule is useful when you want solve $bold(A) bold(x) = bold(y)$ without 
   5. The matrix $bold(A)$ is invertible
   6. $det(bold(A)) eq.not 0$
 ]
+
+= Rank
+== Linear Subspaces
+#definition()[
+  Let $V$ be a linear vector space over $RR$. A subset $W subset V$ is a subspace of $V$ is it satisfies the following properties:
+  1. $W$ is non-empty, i.e., $bold(0) in W$.
+  2. $W$ is closed under addition, i.e. for any $bold(a), bold(b) in W$, we have $bold(a) + bold(b) in W$
+  3. $W$ is closed under scalar multiplication, i.e. for any $c in RR$, and $bold(a) in W$, we have $c bold(a) in W$
+]<def-subspace>
+
+#theorem()[
+  Let $bold(v_1), bold(v_2), dots.h, bold(v_n)$ be vectors in $RR^n$. Then $"span"(bold(v_1), bold(v_2), dots.h, bold(v_n))$ is a subspace of $RR^n$
+]<span-subspace>
+
+#proof()[
+  To prove: for $bold(v_1), dots.h, bold(v_n) in RR^n$, the set
+  $
+    S = "span"(bold(v_1), dots.h, bold(v_n)) = brace.l sum_(i = 1)^k a_i bold(v_i) : a_i in RR brace.r
+  $
+  is a subspace of $RR^n$.
+  We must show $S$ satisfy @def-subspace.
+  1. Non-empty/zero vector in $S$
+  Take all coefficients $a_i = 0$. Then $sum_(i = 1)^k 0 bold(v_i) = bold(0) in S$
+  2. Closed under addition
+  Let $bold(x) = sum_(i = 1)^k a_i v_i in S$ and $bold(y) = sum_(i = 1)^k b_i v_i in S$.
+
+  Then
+  $
+    bold(x) + bold(y) = sum_(i = 1)^k (a_i + b_i) bold(v_i),
+  $
+  which is a linear combination of $bold(v_1), dots.h, bold(v_n)$, so $bold(x) + bold(y) in S$.
+  3. Closed under scalar multiplication
+  Let $bold(x) = sum_(i = 1)^k a_i bold(v_i) in S$ and $c in RR$.
+  Then
+  $
+    c bold(x) = sum_(i = 1)^k (c a_i) bold(v_i),
+  $
+  is a linear combination of the same vectors, hence $c bold(x) in S$.
+]
+
+#lemma()[
+  Let $S in RR^n$ be a subspace. If
+  $
+    S subset.eq "span"(brace.l bold(v_1), dots.h, bold(v_k) brace.r)
+  $
+  then the dimension of $S$ is at most $k$.
+]<lemma-subspace-dim-span>
+
+#proof()[
+
+  Let $U = "span"(brace.l bold(v_1), dots.h, bold(v_k) brace.r)$ and $S subset.eq U$ is a subspace in $RR^n$. We try to prove $dim(S) lt.eq k$.
+
+  A basis for $U$ can be chosen from the set $brace.l bold(v_1), dots.h, bold(v_k) brace.r$. The number of vectors in this basis is equal to $dim(U)$. So
+  $
+    dim(U) lt.eq k
+  $
+  Since $S$ is a subspace of $U$, it is known that
+  $
+    dim(S) lt.eq dim(U)
+  $
+
+  Combining two inequalities, it is concluded that $dim(S) lt.eq dim(U) lt.eq k$
+]
+
+
+== Null Space and Nullity
+#definition(title: "Null Space")[
+  If $A$ is an $m times n$ matrix, then the entire set of solutions to $bold(A) bold(x) = bold(0)$ is called the null space of $A$.
+]<def-null-space>
+
+#definition(title: "Nullity")[
+  The dimension of the null space is denoted $"nullity"(bold(A))$.
+]<def-nullity>
+
+== Column Space, Row Space, and Rank
+
+#definition(title: "Column Space")[
+  Let $bold(A) = (bold(a)_(, 1) dots.h bold(a)_(, n))$ is an $m times n$ matrix. The column space of $bold(A)$ is then the set of all linear combinations of the column vectors $bold(a)_(, i)$.
+]<def-col-space>
+Note that the column space is a subspace of $RR^m$ by definition, since the number of elements in all column vectors of $bold(A)$ is $m$.
+
+#definition(title: "Row Space")[
+  Let $bold(A) = (bold(a)_(, 1) dots.h bold(a)_(, n))^T$ be an $m times n$ matrix. The row space of $bold(A)$ is then the set of all linear combinations of the row vectors, $bold(a)_(, i)^T$
+]<def-row-space>
+
+Note that the row space is a subspace of $RR^n$ by definition, since the number of elements in all row vectors is $n$.
 
 
 #bibliography("ref.bib")
