@@ -11,6 +11,7 @@
 }
 
 
+
 #show: template.with(
   title: "Linear Algebra",
   authors: (
@@ -253,7 +254,7 @@ Every column of $bold(P)$ is a _linear combination_ of the columns of $bold(A)$.
 #figure(
   image("col-pic.png"),
   caption: [Column picture of matrix multiplication. Image taken from @strangArtLinearAlgebra2024 ],
-)
+)<fig-col-picture>
 
 *The row picture of matrix multiplication*
 
@@ -262,7 +263,7 @@ Every row of $bold(P)$ is a _linear combination_ of the rows of $bold(B)$.
 #figure(
   image("row-pic.png"),
   caption: [Row picture of matrix multiplication. Image taken from @strangArtLinearAlgebra2024 ],
-)
+)<fig-row-picture>
 
 
 == Matrix Arithmetric Properties
@@ -480,5 +481,78 @@ Note that the column space is a subspace of $RR^m$ by definition, since the numb
 
 Note that the row space is a subspace of $RR^n$ by definition, since the number of elements in all row vectors is $n$.
 
+#definition(title: "Row Echelon Form (REF) of a Matrix")[
+  A matrix $bold(A)$ is said to be on REF if its rows with only zeroes (if any) are placed at bottom, and the first non-zero cofficient, $a_(i j)$, on each row with number $i$ is placed such that all other rows with a first non-zero coefficient, $a_(i^' j^')$, fulfills $i^' lt i$ (the row $i^'$ is above row $i$) and $j^' lt j$
+]<def-ref>
+
+#example()[
+  A matrix on REF can be obtained by applying _Gaussian elimination_ until no more reductions can be made. E.g.,
+  $
+    mat(
+      underline(2), 0, 1, -2, 1;
+      0, underline(1), 4, 2, 1;
+      0, 0, 0, underline(1), 2; 0, 0, 0, 0, 0
+    )
+  $
+]
+
+#theorem()[
+  Given a system $bold(A) bold(x) = bold(0)$, which after Gaussian elimination is on REF $bold(R) bold(x) = bold(0)$, then
+  1. The non-zero rows of $R$ form a basis for the row space of $bold(R)$ and also for $bold(A)$.
+  2. The column vectors with the first non-zero element of the row vectors form the column space basis of $bold(R)$, while the column space for $bold(A)$ is the column vectors from $bold(A)$ with the column numbers as the columns for the column space for $bold(R)$.
+]
+
+#theorem(title: "Column and Row Rank Size")[
+  The row rank is equal to the column rank of a matrix $bold(A)$.
+]<theorem-col-row-rank-size>
+
+#proof()[
+  This proof is taken from @mh1200ColRowRankProof.
+
+  We will use @lemma-subspace-dim-span to prove @theorem-col-row-rank-size.
+
+  Let $bold(A)$ be a $m times n$ matrix and say that $bold(A) = bold(X) bold(Y)$ where $bold(X)$ is a $m times d$ matrix and $Y$ is a $d times n$ matrix.
+
+  We know that every row of $bold(A)$ is a linear combination of the rows of $bold(Y)$ (see @fig-row-picture). Hence $"rowspace"(bold(A)) subset.eq "span"(brace.l bold(Y)_1, dots.h, bold(Y)_d brace.r)$ and follow @lemma-subspace-dim-span the dimension of the row space is at most $d$.
+
+  Likewise, every column of $bold(A)$ is a linear combination of the cols of $bold(X)$ (see @fig-col-picture). Hence $"columnspace"(bold(A)) subset.eq "span"(brace.l bold(X)_1, dots.h, bold(X)_d brace.r)$ and follow @lemma-subspace-dim-span the dimension of the column space is at most $d$.
+
+  We need to prove the column rank is less than or equal the row rank.
+
+  Let $bold(A)$ be a $m times n$ matrix. If the dimension of the row space of $bold(A)$ is $r$, then $bold(A) = bold(X) bold(Y)$ for some $m times r$ matrix $bold(X)$ and $r times n$ matrix $bold(Y)$.
+
+  Reason: Let $bold(Y)_1, dots.h, bold(Y)_r$ be a basis for the row space of $A$ and let $bold(A)_1, dots.h, bold(A)_m$ be the rows of $bold(A)$. Then
+  $
+    bold(A)_1 = bold(x)_(1 1) bold(Y)_1 + bold(x)_(1 2) bold(Y)_2 + dots.h + bold(x)_(1 r) bold(Y)_r \
+    bold(A)_2 = bold(x)_(2 1) bold(Y)_1 + bold(x)_(2 2) bold(Y)_2 + dots.h + bold(x)_(2 r) bold(Y)_r \
+    dots.v \
+    bold(A)_m = bold(x)_(m 1) bold(Y)_1 + bold(x)_(m 2) bold(Y)_2 + dots.h + bold(x)_(m r) bold(Y)_r
+  $
+  Thus, $bold(A) = bold(X) bold(Y)$ where $bold(Y)$ is the matrix with rows $bold(Y)_1, dots.h, bold(Y)_r$ and $bold(X)$ is the matrix of coefficients $bold(X)(i, j) = bold(x)_(i j)$. And as we show above, the column rank is at most $r$ which is the row rank of $bold(A)$.
+
+  Now, we prove the row rank is less than or equal the column rank. The proof is the same as above.
+
+  From two claims above, we can see that column rank must be equal to row rank.
+]
+
+A consequence of this proof is the following:
+
+The rank of a $m times n$ matrix $bold(A)$ is equal to the minimum $d$ such that there is a $m times d$ matrix $bold(X)$ and a $d times n$ matrix $bold(Y)$ satisfying $bold(A) = bold(X) bold(Y)$.
+
+Also
+#theorem()[
+  The rank of a matrix is the number of pivot elements after Gaussian elimination.
+]<theorem-rank-matrix>
+
+#proof()[
+  The row rank of matrix $bold(A)$ is equal to the dimension of the row space of the reduced matrix $bold(R)$ after Gaussian elimination. Since a basis of the row space of $bold(R)$ consists of those rows that have a pivot element, the dimension and thereby the rank is the number of pivot elements.
+]
+
+#theorem(title: "Dimension Theorem")[
+  For an $m times n$ matrix $bold(A)$, it holds that
+  $
+    "rank"(bold(A)) + "nullity"(bold(A)) = n
+  $<eq-dimension>
+]<theorem-dimension>
 
 #bibliography("ref.bib")
