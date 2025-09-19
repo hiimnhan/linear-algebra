@@ -393,7 +393,7 @@ Cramer's Rule is useful when you want solve $bold(A) bold(x) = bold(y)$ without 
   4. The matrix equation $bold(A) bold(x) = bold(y)$ has a solution for every $bold(y)$
   5. The matrix $bold(A)$ is invertible
   6. $det(bold(A)) eq.not 0$
-]
+]<theorem-det-indep-invert>
 
 = Rank
 == Linear Subspaces
@@ -555,4 +555,41 @@ Also
   $<eq-dimension>
 ]<theorem-dimension>
 
+= Eigenvalues and Eigenvectors
+#definition(title: "Eigenvalues and Eigenvectors")[
+  Let $bold(A)$ is a square $n times n$ matrix.
+
+  An eigenvector of $bold(A)$ is a non-zero vector $bold(v)$ in $RR^n$ such that $bold(A) bold(v) = lambda bold(v)$, for some scalar $lambda$.
+
+  An eigenvalue of $bold(A)$ is a scalar $lambda$ such that the equation $bold(A) bold(v) = lambda bold(v)$ has a nontrivial solution.
+]<def-eigen>
+
+Basically, when in a linear transformation, most of vectors will be off their span. However, there are some vectors stretch out on their span instead. These vectors are called _eigenvectors_ and the number representing how much they stretch is called _eigenvalues_.
+
+#theorem()[
+  If $bold(v)$ is an eigenvector with eigenvalue $lambda$, then $mu bold(v)$ is also an eigenvector with the same eigenvalue for each $mu eq.not 0$.
+]
+
+#proof()[
+  if $bold(v)$ is an eigenvector with eigenvalue $lambda$, then $bold(v) eq.not 0$ and $F(bold(v)) = lambda bold(v)$. For each non-zero multiple $bold(u) = mu bold(v)$, we have that $bold(u) eq.not 0$ and that $F(bold(u)) = F(mu bold(v)) = mu F(bold(v)) = mu lambda bold(v) = lambda bold(u)$.
+]
+So the eigenvectors can be *rescaled* and have to be *non-zero*.
+
+== Calculate Eigenvectors and Eigenvalues
+
+#definition()[
+  Let $bold(A)$ is a square matrix of size $n times n$. The polynomial
+  $
+    p_(bold(A))(lambda) = det(lambda bold(I) - bold(A))
+  $<eq-char-poly>
+  is then called the characteristic polynomial.
+]<def-char-poly>
+
+Given a matrix $bold(A)$, how we can calculate the eigenvectors $bold(v)$ and the corresponding eigenvalues $lambda$? The equation @eq:eq-char-poly can be rewritten as
+$
+  lambda bold(v) - bold(A) bold(v) = (lambda bold(I) - bold(A)) bold(v) = 0
+$
+If $bold(v)$ is an eigenvector, then the matrix $(lambda bold(I) - bold(A))$ has a non-zero null vector. According to @theorem-det-indep-invert, this means that $p_(bold(A))(lambda) = det(lambda bold(I) - bold(A)) = 0$.
+
+== Diagonalization
 #bibliography("ref.bib")
